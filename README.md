@@ -5,6 +5,7 @@ This repository sets up a simple Flask server to receive [Bitbucket](https://bit
 - Mac OS X 10.8+
 - Python
 - Pip
+- [ngrok](https://ngrok.com/)
 - virtualenv (optional)
 
 # Installation
@@ -27,6 +28,7 @@ This repo uses:
 - Microframework: [Flask](http://flask.pocoo.org/)
 - Python Foreman clone: [Honcho](https://github.com/nickstenning/honcho)
 - Python wrapper for Mac OS 10.8 Notification Center: [pync](https://github.com/setem/pync/)
+- Secure tunneling to localhost: [ngrok](https://ngrok.com/)
 
 # License
 
