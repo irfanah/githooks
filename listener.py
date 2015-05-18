@@ -11,20 +11,23 @@ ngrok = ''
 if 'NGROK_SUBDOMAIN' in os.environ:
     ngrok = os.environ['NGROK_SUBDOMAIN']
 
-html_message = 'Webhook server online! Go to <a href="https://bitbucket.com">Bitbucket</a> to configure your repository webhook for your <a href="http://%s.ngrok.io/webhook">http://%s.ngrok.io/webhook</a> <br />\
-            You can access ngrok\'s web interface via <a href="http://localhost:4040">http://localhost:4040</a>' % (ngrok,ngrok)
-
 def displayIntro():
     if ngrok:
-        print 'You can access this webhook publicly via at http://%s.ngrok.io/webhook' % ngrok
-    print 'You can access ngrok\'s web interface via http://localhost:4040'
+        print 'You can access this webhook publicly via at http://%s.ngrok.io/webhook\
+        You can access ngrok\'s web interface via http://localhost:4040' % ngrok
+    else:
+        print 'Webhook server online! Go to http://localhost:5000'
+
+def displayHTML(request):
+    if ngrok:
+        return 'Webhook server online! Go to <a href="https://bitbucket.com">Bitbucket</a> to configure your repository webhook for <a href="http://%s.ngrok.io/webhook">http://%s.ngrok.io/webhook</a> <br />\
+            You can access ngrok\'s web interface via <a href="http://localhost:4040">http://localhost:4040</a>' % (ngrok,ngrok)
+    else:
+        return 'Webhook server online! Go to <a href="https://bitbucket.com">Bitbucket</a> to configure your repository webhook for <a href="%s/webhook">%s/webhook</a>' % (request.url_root,request.url_root)
 
 @app.route('/', methods=['GET'])
 def index():  
-    if ngrok:
-        return html_message
-    else:
-        print 'Webhook server online! Go to Bitbucket to configure you webhook'
+    return displayHTML(request)
 
 @app.route('/webhook', methods=['GET', 'POST'])
 def tracking():  
@@ -36,10 +39,7 @@ def tracking():
         Notifier.notify('%s committed %s\nClick to view in Bitbucket' % (commit_author, commit_hash), title='Webhook received!', open=commit_url)
         return 'OK'
     else:
-        if ngrok:
-            return html_message
-        else:
-            print 'Webhook server online! Go to Bitbucket to configure you webhook'
+        return displayHTML(request)
 
 if __name__ == '__main__':
     displayIntro()
