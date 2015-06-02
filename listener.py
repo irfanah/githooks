@@ -1,6 +1,5 @@
 import os
-
-from pync import Notifier
+from sys import platform as _platform
 
 from flask import Flask  
 from flask import request  
@@ -36,7 +35,12 @@ def tracking():
         commit_author = data['actor']['username']
         commit_hash = data['push']['changes'][0]['new']['commit']['hash'][:7]
         commit_url = data['push']['changes'][0]['new']['commit']['links']['html']['href']
-        Notifier.notify('%s committed %s\nClick to view in Bitbucket' % (commit_author, commit_hash), title='Webhook received!', open=commit_url)
+        # Show notification if operating system is OS X
+        if _platform == "darwin":
+            from pync import Notifier
+            Notifier.notify('%s committed %s\nClick to view in Bitbucket' % (commit_author, commit_hash), title='Webhook received!', open=commit_url)
+        else:
+            print 'Webhook received! %s committed %s' % (commit_author, commit_hash)
         return 'OK'
     else:
         return displayHTML(request)
