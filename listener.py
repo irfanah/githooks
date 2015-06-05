@@ -33,8 +33,8 @@ def tracking():
     if request.method == 'POST':
         data = request.get_json()
         commit_author = data['actor']['username']
-        commit_hash = data['push']['changes'][0]['new']['commit']['hash'][:7]
-        commit_url = data['push']['changes'][0]['new']['commit']['links']['html']['href']
+        commit_hash = data['push']['changes'][0]['new']['target']['hash'][:7]
+        commit_url = data['push']['changes'][0]['new']['target']['links']['html']['href']
         # Show notification if operating system is OS X
         if _platform == "darwin":
             from pync import Notifier
