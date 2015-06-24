@@ -5,15 +5,17 @@ This repository sets up a simple Flask server to receive [Bitbucket](https://bit
 - Mac OS X 10.8+
 - Python
 - Pip
-- [ngrok](https://ngrok.com/)
+- [ngrok](https://ngrok.com/) (Note: `brew install ngrok` installs an old version. Use latest ngrok download instead.)
 - virtualenv (optional)
 
 # Installation
 
-- `pip install -r REQUIREMENTS.txt`
-- Edit `.env` for a ngrok subdomain of your choosing
-- `honcho start` to start the ngrok tunnel and Flask server (`python listener.py` to start without ngrok)
-- Configure your webhook (default: http://bbwebhook.ngrok.io/webhook) on your repo in Bitbucket
+1. Clone this repository and set it as the current working directory.
+2. *(Optional, but good practice)* Create a [virtual environment](http://docs.python-guide.org/en/latest/dev/virtualenvs/). `mkvirtualenv webhook-listener` Once created, use `workon webhook-listener` to restore the virtual environment.
+3. `pip install -r REQUIREMENTS.txt` loads required libraries.
+4. Edit `.env` for a ngrok subdomain of your choosing. If you are using a free ngrok account, just `rm .env`.
+5. `honcho start` to start the ngrok tunnel and Flask server (`python listener.py` to start without ngrok)
+6. Configure your webhook (default: `http://bbwebhook.ngrok.io/webhook`) on your repo in Bitbucket. If you are using a free ngrok account, you can find an assigned URL on the [ngrok dashboard](https://dashboard.ngrok.com/) under the Tunnels Online section. If you copy from the dashboard, be sure to add `/webhook` to the end when you paste into Bitbucket.
 
 # Access
 
@@ -29,27 +31,3 @@ This repo uses:
 - Python Foreman clone: [Honcho](https://github.com/nickstenning/honcho)
 - Python wrapper for Mac OS 10.8 Notification Center: [pync](https://github.com/setem/pync/)
 - Secure tunneling to localhost: [ngrok](https://ngrok.com/)
-
-# License
-
-The MIT License (MIT)
-
-Copyright (c) 2015 Atlassian
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
